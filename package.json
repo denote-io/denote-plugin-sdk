@@ -1,6 +1,6 @@
 {
   "name": "@denote/plugin-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "The SDK for building Denote plugins.",
   "license": "MIT",
@@ -12,6 +12,7 @@
   "exports": {
     ".": {
       "types": "./src/index.ts",
+      "node": "./dist/index.js",
       "default": "./src/index.ts"
     },
     "./tools": {
@@ -21,12 +22,14 @@
     "./tools/package-metadata": {
       "types": "./tools/package-metadata.ts",
       "default": "./tools/package-metadata.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "bin": {
     "denote-plugin": "./bin/denote-plugin.mjs"
   },
   "files": [
+    "dist",
     "src/**/*.ts",
     "!src/**/*.test.ts",
     "!src/test-fixtures/**",
@@ -41,10 +44,12 @@
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
+    "build": "node scripts/build-dist.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "check:api": "node scripts/check-api.mjs",
-    "check": "npm run typecheck && npm test && npm run check:api"
+    "check": "npm run typecheck && npm test && npm run check:api && npm run check:dist",
+    "check:dist": "npm run build && git diff --exit-code -- dist"
   },
   "dependencies": {
     "@types/semver": "^7.8.0",

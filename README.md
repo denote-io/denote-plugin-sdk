@@ -13,17 +13,19 @@ Denote's optional plugins each live in their own repository in the
 The SDK is installed from this repository, pinned to a release tag:
 
 ```bash
-npm install github:denote-io/denote-plugin-sdk#v0.1.0
+npm install github:denote-io/denote-plugin-sdk#v0.1.1
 ```
 
-`@denote/plugin-sdk` ships TypeScript source. Bundlers such as Vite compile it
-directly; test runners that externalize `node_modules`, such as Vitest, must
-inline it (`test.server.deps.inline: ["@denote/plugin-sdk"]`).
+`@denote/plugin-sdk` ships TypeScript source, which bundlers such as Vite and
+type checkers use directly. Node.js cannot load TypeScript from
+`node_modules`, so the `node` export condition selects the bundled
+`dist/index.js` instead; `npm run build` regenerates it and CI checks it is
+current. Plugin bundles always compile the TypeScript source.
 
 ## Create a plugin
 
 ```bash
-npx --package github:denote-io/denote-plugin-sdk#v0.1.0 \
+npx --package github:denote-io/denote-plugin-sdk#v0.1.1 \
   denote-plugin create denote-example denote.example "Example"
 cd denote-example
 npm install
@@ -92,7 +94,8 @@ npm run check   # type check, tests, and the frozen API baseline
 
 ## Release
 
-1. Bump `version` in `package.json` and merge with CI passing.
+1. Bump `version` in `package.json`, run `npm run build`, and merge with CI
+   passing.
 2. Tag the merge commit `v<version>` and publish a GitHub release.
 3. Update consumers to `github:denote-io/denote-plugin-sdk#v<version>`.
 

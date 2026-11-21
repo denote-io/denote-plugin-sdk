@@ -43,6 +43,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Bundled Node build is current
+        run: npm run check:dist
+
       - name: Frozen API 1 declarations
         run: npm run check:api
 
