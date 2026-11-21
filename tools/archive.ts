@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import {
   chmodSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync,
 } from "node:fs";
@@ -77,11 +77,17 @@ export async function writePluginArchive(
     if (bytes.length > MAX_PLUGIN_PACKAGE_BYTES) {
       throw new Error(`${manifest.id}@${manifest.version} exceeds the 25 MB plugin package limit.`);
     }
-    const temporary = join(staging, "archive.tgz");
-    writeFileSync(temporary, bytes);
-    await verifyArchiveEntries(temporary, manifest);
-    rmSync(destination, { force: true });
-    renameSync(temporary, destination);
+    const verified = join(staging, "archive.tgz");
+    writeFileSync(verified, bytes);
+    await verifyArchiveEntries(verified, manifest);
+    // Rename within the destination directory: the staging area may be on another volume.
+    const temporary = `${destination}.${randomUUID()}.tmp`;
+    try {
+      writeFileSync(temporary, bytes, { flag: "wx" });
+      renameSync(temporary, destination);
+    } finally {
+      rmSync(temporary, { force: true });
+    }
   } finally {
     rmSync(staging, { recursive: true, force: true });
   }
