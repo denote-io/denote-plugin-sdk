@@ -223,6 +223,7 @@ ${validationSteps(options)}
         with:
           name: plugin-archive
           path: .plugin-artifacts/*.tgz
+          include-hidden-files: true
           if-no-files-found: error
 `;
 }
