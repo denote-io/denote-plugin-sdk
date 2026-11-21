@@ -1,0 +1,4 @@
+node_modules/
+.api-declarations/
+.plugin-artifacts/
+*.tgz

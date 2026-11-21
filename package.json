@@ -2,14 +2,90 @@
   "name": "@denote/plugin-sdk",
   "version": "0.1.0",
   "private": true,
+  "description": "The SDK for building Denote plugins.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denote-io/denote-plugin-sdk.git"
+  },
   "type": "module",
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./tools": {
+      "types": "./tools/index.ts",
+      "default": "./tools/index.ts"
+    },
+    "./tools/package-metadata": {
+      "types": "./tools/package-metadata.ts",
+      "default": "./tools/package-metadata.ts"
     }
   },
+  "bin": {
+    "denote-plugin": "./bin/denote-plugin.mjs"
+  },
+  "files": [
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "!src/test-fixtures/**",
+    "tools/**/*.ts",
+    "!tools/**/*.test.ts",
+    "bin",
+    "api",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "check:api": "node scripts/check-api.mjs",
+    "check": "npm run typecheck && npm test && npm run check:api"
+  },
   "dependencies": {
-    "semver": "^7.8.5"
+    "@types/semver": "^7.8.0",
+    "semver": "^7.8.5",
+    "tsx": "^4.23.15"
+  },
+  "peerDependencies": {
+    "acorn": "^8.19.0",
+    "pako": "3.0.3",
+    "tar": "^7.5.23",
+    "vite": "^8.3.8"
+  },
+  "peerDependenciesMeta": {
+    "acorn": {
+      "optional": true
+    },
+    "pako": {
+      "optional": true
+    },
+    "tar": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "acorn": "^8.19.0",
+    "jsdom": "^31.0.1",
+    "pako": "3.0.3",
+    "tar": "^7.5.23",
+    "typescript": "^7.0.2",
+    "vite": "8.3.8",
+    "vitest": "^5.1.0"
+  },
+  "overrides": {
+    "rolldown": "1.2.15"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents": false
   }
 }

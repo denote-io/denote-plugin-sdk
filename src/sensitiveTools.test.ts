@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { isPluginSensitiveToolRegistration, parsePluginManifest } from "./index";
-import speech from "../../../plugins/speech/plugin.json";
-import credentials from "../../../plugins/credential-store/plugin.json";
+import speech from "./test-fixtures/speech.plugin.json";
+import credentials from "./test-fixtures/credential-store.plugin.json";
 
 describe("sensitive tool boundaries", () => {
   it("accepts only closed declarative registrations without sensitive payloads or functions", () => {

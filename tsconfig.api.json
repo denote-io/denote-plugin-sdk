@@ -1,14 +1,13 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
     "declaration": true,
     "emitDeclarationOnly": true,
     "removeComments": true,
     "rootDir": "src",
-    "outDir": "../../.plugin-artifacts/api-declarations",
+    "outDir": ".api-declarations",
     "newLine": "lf"
   },
-  "include": ["src/index.ts"],
-  "references": []
+  "include": ["src/index.ts"]
 }
