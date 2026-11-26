@@ -1,5 +1,6 @@
 import { compare, valid } from "semver";
 import { CLOCK_CONTENT_CAPABILITIES } from "./clocks";
+import { SENSITIVE_TOOL_FEATURES } from "./sensitiveTools";
 import {
   PLUGIN_CAPABILITIES,
   PLUGIN_CATEGORIES,
@@ -219,9 +220,9 @@ export function validatePluginManifest(
   }
   if (Array.isArray(value.permissions) &&
       value.permissions.some((permission) => isRecord(permission) &&
-        ["speech", "credential-store"].includes(String(permission.capability))) &&
+        SENSITIVE_TOOL_FEATURES.some((feature) => feature === permission.capability)) &&
       value.permissions.length !== 1) {
-    errors.push("Sensitive tools require one isolated speech or credential-store permission.");
+    errors.push("Sensitive tools require one isolated speech, credential-store, or sync permission.");
   }
   if (value.legal !== undefined) {
     if (!Array.isArray(value.legal) || value.legal.length === 0) {

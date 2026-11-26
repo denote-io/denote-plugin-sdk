@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "denote.sync",
+  "name": "Whole-app sync",
+  "version": "0.1.1",
+  "description": "Synthetic sync manifest for validation tests.",
+  "publisher": {
+    "name": "Denote",
+    "url": "https://github.com/mbianchidev/denote"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/mbianchidev/denote",
+  "icon": "icon.svg",
+  "category": "productivity",
+  "compatibility": {
+    "apiVersion": 1,
+    "minimumDenoteVersion": "0.11.0",
+    "maximumDenoteVersion": "2.0.0"
+  },
+  "permissions": [
+    {
+      "capability": "sync"
+    }
+  ],
+  "entrypoint": "dist/index.js",
+  "documentation": "guide.md"
+}

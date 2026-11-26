@@ -55,6 +55,7 @@ export const PLUGIN_CAPABILITIES = [
   "notifications",
   "process",
   "secure-storage",
+  "sync",
 ] as const;
 
 export type PluginCapability = (typeof PLUGIN_CAPABILITIES)[number];
