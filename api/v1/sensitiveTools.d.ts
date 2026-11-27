@@ -1,5 +1,5 @@
 import type { PluginDisposable } from "./contracts";
-export declare const SENSITIVE_TOOL_FEATURES: readonly ["speech", "credential-store"];
+export declare const SENSITIVE_TOOL_FEATURES: readonly ["speech", "credential-store", "sync"];
 export type PluginSensitiveToolFeature = (typeof SENSITIVE_TOOL_FEATURES)[number];
 export interface PluginSensitiveToolRegistration {
     id: string;

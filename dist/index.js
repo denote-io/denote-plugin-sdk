@@ -49,7 +49,8 @@ var PLUGIN_CAPABILITIES = [
 	"clipboard-write",
 	"notifications",
 	"process",
-	"secure-storage"
+	"secure-storage",
+	"sync"
 ];
 var PLUGIN_GUIDE_SECTIONS = [
 	"purpose",
@@ -564,6 +565,22 @@ function line(value, maximum) {
 function nullableNotice(value) {
 	return value === null || displayText(value, 1e3);
 }
+// src/sensitiveTools.ts
+var SENSITIVE_TOOL_FEATURES = [
+	"speech",
+	"credential-store",
+	"sync"
+];
+function isPluginSensitiveToolRegistration(value) {
+	if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+	const tool = value;
+	return Object.keys(tool).every((key) => [
+		"id",
+		"title",
+		"feature",
+		"type"
+	].includes(key)) && (tool.type === void 0 || tool.type === "register-sensitive-tool") && typeof tool.id === "string" && /^[a-z0-9][a-z0-9.-]{0,159}$/.test(tool.id) && typeof tool.title === "string" && tool.title.trim().length > 0 && tool.title.length <= 160 && !/[\u0000-\u001f\u007f]/.test(tool.title) && SENSITIVE_TOOL_FEATURES.some((feature) => feature === tool.feature);
+}
 // src/validation.ts
 function validatePluginBundles(value, catalogPluginIds) {
 	if (!Array.isArray(value)) return invalid("Plugin bundles must be an array.");
@@ -670,7 +687,7 @@ function validatePluginManifest(value) {
 	const hasClocks = Array.isArray(value.permissions) && value.permissions.some((permission) => isRecord$6(permission) && permission.capability === "clocks");
 	if (hasClocks && !hasNotificationPermission) errors.push("clocks permission requires notifications permission.");
 	if (hasClocks && Array.isArray(value.permissions) && value.permissions.some((permission) => isRecord$6(permission) && CLOCK_CONTENT_CAPABILITIES.some((capability) => capability === permission.capability))) errors.push("clocks cannot share a worker with content-based capabilities.");
-	if (Array.isArray(value.permissions) && value.permissions.some((permission) => isRecord$6(permission) && ["speech", "credential-store"].includes(String(permission.capability))) && value.permissions.length !== 1) errors.push("Sensitive tools require one isolated speech or credential-store permission.");
+	if (Array.isArray(value.permissions) && value.permissions.some((permission) => isRecord$6(permission) && SENSITIVE_TOOL_FEATURES.some((feature) => feature === permission.capability)) && value.permissions.length !== 1) errors.push("Sensitive tools require one isolated speech, credential-store, or sync permission.");
 	if (value.legal !== void 0) {
 		if (!Array.isArray(value.legal) || value.legal.length === 0) errors.push("legal must be a non-empty array.");
 		else {
@@ -2154,18 +2171,6 @@ function notices(value) {
 }
 function uniqueIds(value) {
 	return new Set(value.map((item) => record$1(item) ? item.id : void 0)).size === value.length;
-}
-// src/sensitiveTools.ts
-var SENSITIVE_TOOL_FEATURES = ["speech", "credential-store"];
-function isPluginSensitiveToolRegistration(value) {
-	if (!value || typeof value !== "object" || Array.isArray(value)) return false;
-	const tool = value;
-	return Object.keys(tool).every((key) => [
-		"id",
-		"title",
-		"feature",
-		"type"
-	].includes(key)) && (tool.type === void 0 || tool.type === "register-sensitive-tool") && typeof tool.id === "string" && /^[a-z0-9][a-z0-9.-]{0,159}$/.test(tool.id) && typeof tool.title === "string" && tool.title.trim().length > 0 && tool.title.length <= 160 && !/[\u0000-\u001f\u007f]/.test(tool.title) && SENSITIVE_TOOL_FEATURES.some((feature) => feature === tool.feature);
 }
 // src/tooling.ts
 var TOOL_FORMATS = [

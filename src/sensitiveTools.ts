@@ -1,6 +1,6 @@
 import type { PluginDisposable } from "./contracts";
 
-export const SENSITIVE_TOOL_FEATURES = ["speech", "credential-store"] as const;
+export const SENSITIVE_TOOL_FEATURES = ["speech", "credential-store", "sync"] as const;
 export type PluginSensitiveToolFeature = (typeof SENSITIVE_TOOL_FEATURES)[number];
 
 export interface PluginSensitiveToolRegistration {

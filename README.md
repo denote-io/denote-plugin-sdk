@@ -13,7 +13,7 @@ Denote's optional plugins each live in their own repository in the
 The SDK is installed from this repository, pinned to a release tag:
 
 ```bash
-npm install github:denote-io/denote-plugin-sdk#v0.1.1
+npm install github:denote-io/denote-plugin-sdk#v0.2.0
 ```
 
 `@denote/plugin-sdk` ships TypeScript source, which bundlers such as Vite and
@@ -25,7 +25,7 @@ current. Plugin bundles always compile the TypeScript source.
 ## Create a plugin
 
 ```bash
-npx --package github:denote-io/denote-plugin-sdk#v0.1.1 \
+npx --package github:denote-io/denote-plugin-sdk#v0.2.0 \
   denote-plugin create denote-example denote.example "Example"
 cd denote-example
 npm install
