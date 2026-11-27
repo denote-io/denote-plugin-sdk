@@ -1,6 +1,6 @@
 # Denote plugin SDK
 
-The SDK for building [Denote](https://github.com/mbianchidev/denote) plugins.
+The SDK for building [Denote](https://github.com/denote-io/denote) plugins.
 It contains the plugin API 1 contracts and validation used by both Denote and
 its plugins, capability helpers, and the `denote-plugin` command that builds,
 checks, and packages a plugin.
@@ -34,7 +34,7 @@ npm run dev
 
 The scaffold contains a manifest, guide, icon, activation entrypoint, test,
 TypeScript and Vitest configuration, and CI and release workflows. The
-[plugin ecosystem documentation](https://github.com/mbianchidev/denote/blob/main/docs/plugins.md)
+[plugin ecosystem documentation](https://github.com/denote-io/denote/blob/main/docs/plugins.md)
 describes the package contract, permissions, lifecycle, and security
 boundaries.
 
@@ -76,7 +76,7 @@ archive bytes and requires a new plugin version.
 
 `api/v1/` holds the frozen declaration baseline for plugin API 1. CI fails if
 the public declarations change. Review compatibility and Denote's
-[API freeze and deprecation policy](https://github.com/mbianchidev/denote/blob/main/docs/plugins.md#api-1-freeze-and-deprecation-policy)
+[API freeze and deprecation policy](https://github.com/denote-io/denote/blob/main/docs/plugins.md#api-1-freeze-and-deprecation-policy)
 before explicitly recording a change:
 
 ```bash
